@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -18,7 +19,6 @@ public class listagemVIEW extends javax.swing.JFrame {
      */
     public listagemVIEW() {
         initComponents();
-        listarProdutos();
     }
 
     /**
@@ -42,18 +42,15 @@ public class listagemVIEW extends javax.swing.JFrame {
         btnVoltar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        listaProdutos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "ID", "Nome", "Valor", "Status"
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                formWindowGainedFocus(evt);
             }
-        ));
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
+
+        listaProdutos.setModel(montarTabela());
         jScrollPane1.setViewportView(listaProdutos);
 
         jLabel1.setFont(new java.awt.Font("Lucida Fax", 0, 18)); // NOI18N
@@ -142,7 +139,7 @@ public class listagemVIEW extends javax.swing.JFrame {
         ProdutosDAO produtosdao = new ProdutosDAO();
         
         //produtosdao.venderProduto(Integer.parseInt(id));
-        listarProdutos();
+        //listarProdutos();
     }//GEN-LAST:event_btnVenderActionPerformed
 
     private void btnVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVendasActionPerformed
@@ -153,6 +150,10 @@ public class listagemVIEW extends javax.swing.JFrame {
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnVoltarActionPerformed
+
+    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
+        listaProdutos.setModel(montarTabela());
+    }//GEN-LAST:event_formWindowGainedFocus
 
     /**
      * @param args the command line arguments
@@ -188,6 +189,27 @@ public class listagemVIEW extends javax.swing.JFrame {
             }
         });
     }
+    
+    private DefaultTableModel montarTabela() {
+        String[] colunas = {"ID", "Nome", "Valor", "Status"};
+        
+        DefaultTableModel tabela = new DefaultTableModel(colunas, 0);
+        
+        List<ProdutosDTO> lista = ProdutosDAO.listarProdutos();
+        
+        for (int i = 0; i < lista.size(); i++) {
+            ProdutosDTO p = lista.get(i);
+            String[] linhas = {
+                String.valueOf(p.getId()),
+                p.getNome(),
+                String.valueOf(p.getValor()),
+                p.getStatus()
+            };
+            tabela.addRow(linhas);
+        }
+        return tabela;
+    }
+        
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnVendas;

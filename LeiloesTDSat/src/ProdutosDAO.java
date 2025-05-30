@@ -16,8 +16,6 @@ import java.util.ArrayList;
 
 public class ProdutosDAO {
 
-    ArrayList<ProdutosDTO> listagem = new ArrayList<>();
-
     public static boolean cadastrarProduto(ProdutosDTO produto) {
         conectaDAO conn = new conectaDAO();
         conn.connectDB();
@@ -29,6 +27,7 @@ public class ProdutosDAO {
 
         //Comandos SQL
         String sql = "INSERT INTO produtos (nome, valor, status) VALUES (?, ? ,?);";
+
         try {
             PreparedStatement ps = conn.getConn().prepareStatement(sql);
             ps.setString(1, nome);
@@ -43,8 +42,36 @@ public class ProdutosDAO {
             return false;
         }
     }
-    public ArrayList<ProdutosDTO> listarProdutos() {
-        return listagem;
+
+    public static ArrayList<ProdutosDTO> listarProdutos() {
+        ArrayList<ProdutosDTO> lista = new ArrayList<>();
+        
+        try {
+            //Conexão com o banco de dados
+            conectaDAO conn = new conectaDAO();
+            conn.connectDB();
+            
+            //Query SQL
+            String sql = "SELECT * FROM produtos;";
+            
+            PreparedStatement ps = conn.connectDB().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                ProdutosDTO p = new ProdutosDTO();
+                
+                p.setId(rs.getInt("id"));
+                p.setNome(rs.getString("Nome"));
+                p.setValor(rs.getInt("Valor"));
+                p.setStatus(rs.getString("Status"));
+                
+                lista.add(p);
+            }
+            conn.disconnectDB();
+        } catch (SQLException se) {
+            System.out.println("Erro ao listar produtos: " + se);
+        }
+        return lista;
     }
 
 }

@@ -150,13 +150,13 @@ public class cadastroVIEW extends javax.swing.JFrame {
         String status = "A Venda";
 
         if (nome.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Campo nome está vazio");
+            JOptionPane.showMessageDialog(null, "Campo nome está vazio", "", 2);
         } else {
             if (valor.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Campo valor está vazio");
+                JOptionPane.showMessageDialog(null, "Campo valor está vazio", "", 2);
             } else {
                 if (valor.matches(".*[^0-9].*")) {
-                    JOptionPane.showMessageDialog(null, "Caractéres inválidos no campo valor");
+                    JOptionPane.showMessageDialog(null, "Caractéres inválidos no campo valor", "", 2);
                 } else {
                     produto.setNome(nome);
                     produto.setValor(Integer.parseInt(valor));
@@ -165,7 +165,7 @@ public class cadastroVIEW extends javax.swing.JFrame {
                     if (ProdutosDAO.cadastrarProduto(produto)) {
                         JOptionPane.showMessageDialog(null, "Produto cadastrado com Sucesso!");
                     } else {
-                        JOptionPane.showMessageDialog(null, "Não foi possível cadastrar o produto!");
+                        JOptionPane.showMessageDialog(null, "Não foi possível cadastrar o produto!", "", 0);
                     }
                 }
             }
