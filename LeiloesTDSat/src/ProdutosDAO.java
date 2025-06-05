@@ -38,7 +38,27 @@ public class ProdutosDAO {
             conn.disconnectDB();
             return true;
         } catch (SQLException se) {
-            System.out.println("Erro ao cadastrar o filme: " + se.getMessage());
+            System.out.println("Erro ao cadastrar o produto: " + se.getMessage());
+            return false;
+        }
+    }
+    
+    public static boolean venderProduto(int id) {
+        conectaDAO conn = new conectaDAO();
+        conn.connectDB();
+        
+        //String SQL
+        String sql = "UPDATE produtos SET status = \"Vendido\" WHERE id = ?;";
+        
+        try {
+            PreparedStatement ps = conn.getConn().prepareStatement(sql);
+            ps.setString(1, String.valueOf(id));
+            
+            ps.executeUpdate();
+            conn.disconnectDB();
+            return true;
+        } catch (SQLException se){
+            System.out.println("Erro ao vender produto: " + se);
             return false;
         }
     }
