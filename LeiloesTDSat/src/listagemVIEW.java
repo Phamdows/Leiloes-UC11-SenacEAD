@@ -141,9 +141,6 @@ public class listagemVIEW extends javax.swing.JFrame {
         if (resp == 0) {
             ProdutosDAO.venderProduto(id);
         }
-        
-        //produtosdao.venderProduto(Integer.parseInt(id));
-        //listarProdutos();
     }//GEN-LAST:event_btnVenderActionPerformed
 
     private void btnVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVendasActionPerformed
@@ -199,7 +196,7 @@ public class listagemVIEW extends javax.swing.JFrame {
         
         DefaultTableModel tabela = new DefaultTableModel(colunas, 0);
         
-        List<ProdutosDTO> lista = ProdutosDAO.listarProdutos();
+        List<ProdutosDTO> lista = ProdutosDAO.listarProdutosVendidos();
         
         for (int i = 0; i < lista.size(); i++) {
             ProdutosDTO p = lista.get(i);
